@@ -33,7 +33,8 @@ float Structure::new_location(float old) {
 void Structure::draw() {
 	draw_child(head);
 
-	plane_origin[Zelt] -= 0.10f;
+	plane_origin[Zelt] += 0.10f;
+	std::cout << "aserawsraseraser" << std::endl;
 	std::cout << plane_origin[Zelt] << std::endl;
 	update_plane_vectors();
 }
@@ -69,13 +70,17 @@ void Structure::draw_child(Vertex* this_vert) {
 			float x_intersection = u * line_point[Xelt] + (1 - u) * child->position[Xelt];
 			float y_intersection = u * line_point[Yelt] + (1 - u) * child->position[Yelt];
 			float z_intersection = u * line_point[Zelt] + (1 - u) * child->position[Zelt];
-			std::cout << z_intersection << std::endl;
+			Vec3f intersection = Vec3f(x_intersection, y_intersection, z_intersection);
+			//std::cout << z_intersection << std::endl;
+			//std::cout << abs(distance(child->position, intersection) + distance(this_vert->position, intersection) - distance(child->position, this_vert->position)) << std::endl;
 
-			glBegin(GL_POLYGON);
-			for (double i = 0; i < 2 * PI; i += PI / 20) {//<-- Change this Value
-				glVertex3f(cos(i) * radius + (x_intersection / 20.0f), sin(i) * radius + (y_intersection / 20.0f), 0.0);
+			if (abs(distance(child->position, intersection) + distance(this_vert->position, intersection) - distance(child->position, this_vert->position)) < 1.0f) {
+				glBegin(GL_POLYGON);
+				for (double i = 0; i < 2 * PI; i += PI / 20) {//<-- Change this Value
+					glVertex3f(cos(i) * radius + (x_intersection / 5.0f), sin(i) * radius + (y_intersection / 5.0f), 0.0);
+				}
+				glEnd();
 			}
-			glEnd();
 		}
 	}
 }
@@ -117,4 +122,8 @@ void Structure::update_plane_vectors() {
 	plane_x_axis = normalize(plane_x_axis);
 	plane_y_axis = normalize(plane_y_axis);
 	plane_normal = normalize(plane_normal);
+}
+
+float Structure::distance(Vec3f vec1, Vec3f vec2) {
+	return sqrt(pow(vec1[Xelt] - vec2[Xelt], 2) + pow(vec1[Yelt] - vec2[Yelt], 2) + pow(vec1[Zelt] - vec2[Zelt], 2));
 }

@@ -29,9 +29,6 @@
     <ClCompile Include="Source\structure.cpp" />
     <ClCompile Include="Source\vertex.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{5F59A71C-F3A8-4BC7-85B0-756F2BA5787C}</ProjectGuid>
